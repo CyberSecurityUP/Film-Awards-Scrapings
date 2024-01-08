@@ -43,8 +43,17 @@ def main():
     while True:
         nominees_info = scrape_golden_globes_nominees()
 
-        for nominee in nominees_info:
-            print(f"{nominee['name']} - Indicações: {nominee['nominations']}, Vitórias: {nominee['wins']}, Títulos: {', '.join(nominee['titles'])}")
+        # Separando em vencedores e indicados sem vitórias
+        winners = [n for n in nominees_info if n['wins'] > 0]
+        non_winners = [n for n in nominees_info if n['wins'] == 0]
+
+        print("Vencedores do Globo de Ouro:")
+        for winner in winners:
+            print(f"{winner['name']} - Vitórias: {winner['wins']}, Indicações: {winner['nominations']}, Títulos: {', '.join(winner['titles'])}")
+
+        print("\nIndicados ao Globo de Ouro (sem vitórias):")
+        for nominee in non_winners:
+            print(f"{nominee['name']} - Indicações: {nominee['nominations']}, Títulos: {', '.join(nominee['titles'])}")
 
         # Pausa de 60 segundos entre cada verificação
         time.sleep(60)
